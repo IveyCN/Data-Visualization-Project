@@ -3,10 +3,303 @@ title: "HomeWork2"
 author: "Yifan Jian"
 date: "2023/10/2"
 output:
-  html_document: default
+  word_document: default
   pdf_document: default
+  html_document: default
 ---
+##1.
+###a)
 
+We need to express this model in the form:
+
+\[ \mathbf{Y_i} = \mathbf{Z_i} \mathbf{\beta_i} + \mathbf{e_i} \]
+
+Where:
+
+\[ \mathbf{\beta_i} = 
+\begin{bmatrix}
+\beta_{0i} \\
+\beta_{1i}
+\end{bmatrix}
+\]
+
+To find the form of \( \mathbf{Z_i} \), we can expand the equation for \( Y_{ij} \) for each \( j \):
+
+1. \( Y_{i1} = \beta_{0i} + \beta_{1i} t_{i1} \)
+2. \( Y_{i2} = \beta_{0i} + \beta_{1i} t_{i2} \)
+3. \( \vdots \)
+4. \( Y_{ini} = \beta_{0i} + \beta_{1i} t_{ini} \)
+
+For \( ni = 5 \), there will be 5 equations. The matrix form for these equations gives us \( \mathbf{Z_i} \). As previously derived, \( \mathbf{Z_i} \) for \( ni = 5 \) is:
+
+\[
+\mathbf{Z_i} = 
+\begin{bmatrix}
+1 & t_{i1} \\
+1 & t_{i2} \\
+1 & t_{i3} \\
+1 & t_{i4} \\
+1 & t_{i5}
+\end{bmatrix}
+\]
+###b)
+\[
+\mathbf{A_{iA}} = 
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
+\]
+
+For an individual from population \( A \), the deviations \( \mathbf{b_i} \) will be:
+
+\[
+\mathbf{b_{iA}} = 
+\begin{bmatrix}
+b_{0iA} \\
+b_{1iA}
+\end{bmatrix}
+\]
+
+Where:
+- \( b_{0iA} \) is the deviation of the individual intercept from the mean intercept of population A.
+- \( b_{1iA} \) is the deviation of the individual slope from the mean slope of population A.
+
+Similarly, we can derive the forms for \( \mathbf{A_i} \) and \( \mathbf{b_i} \) for populations B, C, and D. As derived before:
+
+For population \( B \):
+
+\[
+\mathbf{A_{iB}} = 
+\begin{bmatrix}
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+\end{bmatrix}
+\]
+
+\[
+\mathbf{b_{iB}} = 
+\begin{bmatrix}
+b_{0iB} \\
+b_{1iB}
+\end{bmatrix}
+\]
+
+For population \( C \):
+
+\[
+\mathbf{A_{iC}} = 
+\begin{bmatrix}
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
+\end{bmatrix}
+\]
+
+\[
+\mathbf{b_{iC}} = 
+\begin{bmatrix}
+b_{0iC} \\
+b_{1iC}
+\end{bmatrix}
+\]
+
+For population \( D \):
+
+\[
+\mathbf{A_{iD}} = 
+\begin{bmatrix}
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+\end{bmatrix}
+\]
+
+\[
+\mathbf{b_{iD}} = 
+\begin{bmatrix}
+b_{0iD} \\
+b_{1iD}
+\end{bmatrix}
+\]
+###c)
+
+Using the previously derived matrices for \( \mathbf{A_i} \) for each population, we can express \( \mathbf{A_i} \) as:
+
+\[
+\mathbf{A_i} = \delta_{Ai} 
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
++ \delta_{Bi} 
+\begin{bmatrix}
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+\end{bmatrix}
++ \delta_{Ci} 
+\begin{bmatrix}
+0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0
+\end{bmatrix}
++ \delta_{Di} 
+\begin{bmatrix}
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+\end{bmatrix}
+\]
+
+Here, the \( \delta \) values act as switches to select the appropriate matrix corresponding to the population of unit \( i \).
+
+###(d
+
+The model can be expressed as:
+
+\[ \mathbf{Y_i} = \mathbf{X_i} \mathbf{\beta} + \mathbf{Z_i} \mathbf{b_i} + \mathbf{e_i} \]
+
+We are tasked to find the form of \( \mathbf{X_i} \) for a unit \( i \) with \( ni = 5 \) if the unit is from populations A and D, respectively.
+
+Given the model:
+
+\[ Y_{ij} = \beta_{0i} + \beta_{1i} t_{ij} + e_{ij} \]
+
+The form of \( \mathbf{X_i} \) will be derived from the structure of \( \mathbf{A_i} \) and the population the unit belongs to.
+
+Let's derive the form of \( \mathbf{X_i} \) for populations A and D when \( ni = 5 \).
+
+For a unit \( i \) with \( ni = 5 \):
+
+When the unit is from population \( A \), \( \mathbf{X_i} \) is:
+
+\[
+\mathbf{X_{iA}} = 
+\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i3} & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i4} & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i5} & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+\end{bmatrix}
+\]
+
+When the unit is from population \( D \), \( \mathbf{X_i} \) is:
+
+\[
+\mathbf{X_{iD}} = 
+\begin{bmatrix}
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i1} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i2} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i3} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i4} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & t_{i5} & 0 & 0 & 0 \\
+\end{bmatrix}
+\]
+
+Here, the matrices \( \mathbf{X_{iA}} \) and \( \mathbf{X_{iD}} \) specify how the observed values \( Y_{ij} \) for a unit \( i \) from populations \( A \) and \( D \) relate to the population-specific intercepts and slopes, while accounting for the time points \( t_{ij} \) for \( j = 1, \ldots, 5 \).
+
+###e)
+Given the previously defined matrices for \( \mathbf{X_i} \) for each population and the indicator variables, the matrix for any unit \( i \) can be expressed as a linear combination of the population-specific matrices:
+
+\[
+\mathbf{X_i} = \delta_{Ai} \mathbf{X_{iA}} + \delta_{Bi} \mathbf{X_{iB}} + \delta_{Ci} \mathbf{X_{iC}} + \delta_{Di} \mathbf{X_{iD}}
+\]
+
+Given the structure of the matrices \( \mathbf{X_{iA}} \) and \( \mathbf{X_{iD}} \) that we derived earlier, and considering that the matrices \( \mathbf{X_{iB}} \) and \( \mathbf{X_{iC}} \) will be similarly structured (with different columns being activated for the intercept and slope), we can express \( \mathbf{X_i} \) in terms of the \( \delta \) indicators.
+
+For any unit \( i \) with \( ni = 5 \), the matrix \( \mathbf{X_i} \) can be expressed compactly in terms of \( \delta_{Ai} \), \( \delta_{Bi} \), \( \delta_{Ci} \), and \( \delta_{Di} \) as:
+
+\[
+\mathbf{X_i} = 
+\begin{bmatrix}
+\delta_{Ai} & \delta_{Bi} & \delta_{Ci} & \delta_{Di} & 0 & 0 & 0 & 0 & \delta_{Ai} t_{i1} & 0 & 0 & 0 & (\delta_{Bi} + \delta_{Di}) t_{i1} & \delta_{Ci} t_{i1} & 0 & 0 \\
+\delta_{Ai} & \delta_{Bi} & \delta_{Ci} & \delta_{Di} & 0 & 0 & 0 & 0 & \delta_{Ai} t_{i2} & 0 & 0 & 0 & (\delta_{Bi} + \delta_{Di}) t_{i2} & \delta_{Ci} t_{i2} & 0 & 0 \\
+\delta_{Ai} & \delta_{Bi} & \delta_{Ci} & \delta_{Di} & 0 & 0 & 0 & 0 & \delta_{Ai} t_{i3} & 0 & 0 & 0 & (\delta_{Bi} + \delta_{Di}) t_{i3} & \delta_{Ci} t_{i3} & 0 & 0 \\
+\delta_{Ai} & \delta_{Bi} & \delta_{Ci} & \delta_{Di} & 0 & 0 & 0 & 0 & \delta_{Ai} t_{i4} & 0 & 0 & 0 & (\delta_{Bi} + \delta_{Di}) t_{i4} & \delta_{Ci} t_{i4} & 0 & 0 \\
+\delta_{Ai} & \delta_{Bi} & \delta_{Ci} & \delta_{Di} & 0 & 0 & 0 & 0 & \delta_{Ai} t_{i5} & 0 & 0 & 0 & (\delta_{Bi} + \delta_{Di}) t_{i5} & \delta_{Ci} t_{i5} & 0 & 0 \\
+\end{bmatrix}
+\]
+
+##2.
+###a)
+Deriving \( \text{var}(Y_{ij}) \):
+
+\( Y_{ij} \):
+
+\[
+Y_{ij} = \beta_0 + b_{0i} + (\beta_1 + b_{1i}) t_{ij} + e_{ij}
+\]
+
+the variance of \( Y_{ij} \) is:
+
+\[
+\text{var}(Y_{ij}) = \text{var}(b_{0i} + b_{1i} t_{ij} + e_{ij})
+\]
+
+Given that \( b_{0i} \), \( b_{1i} \), and \( e_{ij} \) are independent of each other
+
+\[
+\text{var}(Y_{ij}) = \text{var}(b_{0i}) + t_{ij}^2 \text{var}(b_{1i}) + 2 t_{ij} \text{cov}(b_{0i}, b_{1i}) + \text{var}(e_{ij})
+\]
+
+Given the variances and covariances provided:
+
+\[
+\text{var}(b_{0i}) = D_{11}
+\]
+\[
+\text{var}(b_{1i}) = D_{22}
+\]
+\[
+\text{cov}(b_{0i}, b_{1i}) = D_{12}
+\]
+\[
+\text{var}(e_{ij}) = \sigma^2
+\]
+
+
+\[
+\text{var}(Y_{ij}) = D_{11} + D_{22} t_{ij}^2 + 2 D_{12} t_{ij} + \sigma^2
+\]
+
+Deriving \( \text{cov}(Y_{ij}, Y_{ik}) \):
+
+From the model:
+
+\[
+\text{cov}(Y_{ij}, Y_{ik}) = \text{cov}(\beta_0 + b_{0i} + (\beta_1 + b_{1i}) t_{ij} + e_{ij}, \beta_0 + b_{0i} + (\beta_1 + b_{1i}) t_{ik} + e_{ik})
+\]
+
+Given the independence of \( b_{0i} \), \( b_{1i} \), and \( e_{ij} \):
+
+\[
+\text{cov}(Y_{ij}, Y_{ik}) = \text{var}(b_{0i}) + t_{ij} t_{ik} \text{var}(b_{1i}) + t_{ij} \text{cov}(b_{0i}, b_{1i}) + t_{ik} \text{cov}(b_{0i}, b_{1i})
+\]
+
+
+
+\[
+\text{cov}(Y_{ij}, Y_{ik}) = D_{11} + D_{22} t_{ij} t_{ik} + D_{12} (t_{ij} + t_{ik})
+\]
+###b)
+If \( D_{12} = 0 \), it implies that \( b_{0i} \) and \( b_{1i} \) are uncorrelated. 
+since:
+\[
+\text{cov}(Y_{ij}, Y_{ik}) = D_{11} + D_{22} t_{ij} t_{ik} + D_{12} (t_{ij} + t_{ik})
+\]
+
+Given \( D_{12} = 0 \), the equation simplifies to:
+
+\[
+\text{cov}(Y_{ij}, Y_{ik}) = D_{11} + D_{22} t_{ij} t_{ik}
+\]
+
+the covariance between \( Y_{ij} \) and \( Y_{ik} \) consists of two components:
+
+1. \( D_{11} \) which is the covariance due to the random intercept \( b_{0i} \).
+2. \( D_{22} t_{ij} t_{ik} \) which is the covariance due to the random slope \( b_{1i} \).
+
+Since both components are non-zero (assuming \( D_{11} \) and \( D_{22} \) are non-zero), \( Y_{ij} \) and \( Y_{ik} \) are still correlated, even if \( b_{0i} \) and \( b_{1i} \) are uncorrelated. 
+
+
+##3.
 ###import the library
 
 ```{r}
@@ -71,9 +364,14 @@ print(aic_bic)
 From inspection of AIC and BIC for each model fit,we conlude that Model 3 have the lowest AIC and BIC. therefore, Magnitude of within-child fluctuations in lead levels is the same under all treatments but the way in which child-specific intercepts and slopes vary/co-vary are possibly different will be the assumption we prefer. 
 
 ###d)
+
+Hypotheses:
+- \(H_0\): The typical mean slopes of the treatments are the same.
+- \(H_a\): At least one treatment has a "typical" mean slope that's different from the others.
+- If the p-value is less than .05, we reject \(H_0\). This means there's evidence to suggest that the "typical" mean slopes differ among the treatments. Otherwise we accept \(H_0\)
+
+
 ```{r}
-# Load necessary libraries
-library(lme4)
 library(aod)  # For wald.test function
 
 # Fit the preferred Model 3 with interaction term
@@ -87,5 +385,7 @@ result <- wald.test(b = fixef(model3_interact), Sigma = vcov(model3_interact), T
 
 # Print the Wald test result
 print(result)
-
 ```
+
+
+
