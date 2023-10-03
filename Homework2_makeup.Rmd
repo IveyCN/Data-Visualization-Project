@@ -1,0 +1,91 @@
+---
+title: "HomeWork2"
+author: "Yifan Jian"
+date: "2023/10/2"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+###import the library
+
+```{r}
+library('lme4')
+library('ggplot2')
+```
+
+###Load data
+```{r}
+lead_data <- read.table(file='D:\\Graduation\\lead.dat', header=FALSE, sep = "")
+colnames(lead_data) = c('child_id' , 'age_indicator', 'gender_indicator', 'week', 'lead_level', 'treatment')
+head(lead_data)
+```
+
+###a) 
+```{r}
+
+# Rename the treatment levels for better readability
+lead_data$treatment <- factor(lead_data$treatment, levels = c(0, 1, 2), labels = c("Placebo", "Low Dose", "High Dose"))
+
+# Plot the blood lead levels over time for each child, colored by treatment group
+ggplot(lead_data, aes(x = week, y = lead_level, group = child_id, color = treatment)) +
+  geom_line(alpha = 0.5) +
+  labs(title = "Blood Lead Levels Over Time by Treatment Group",
+       x = "Week",
+       y = "Blood Lead Level") +
+  theme_minimal()
+```
+_From the plot, we can make some observations:_
+
+**The trajectories of blood lead levels for individual children seem to vary, with some showing increases, some showing decreases, and others remaining relatively stable.
+
+**There is a considerable overlap between the trajectories of the three treatment groups, making it challenging to discern clear patterns at this preliminary stage.
+
+**While many trajectories seem to be approximately linear, there are also some that exhibit more complex patterns.
+
+###b)
+we fit the model with each a assumption
+```{r}
+
+# Fit the models
+# Model 1: Same for all treatments
+model1 <- lmer(lead_level ~ week + (1 + week | child_id), data = lead_data, REML = TRUE)
+
+# Model 2: Different fluctuations, same intercepts/slopes
+model2 <- lmer(lead_level ~ week + treatment + (1 + week | child_id) + (1 | treatment:child_id), data = lead_data, REML = TRUE)
+
+# Model 3: Same fluctuations, different intercepts/slopes
+model3 <- lmer(lead_level ~ week + treatment + (1 + week | treatment:child_id), data = lead_data, REML = TRUE)
+
+# Model 4: Different for all
+model4 <- lmer(lead_level ~ week + treatment + (1 + week | treatment:child_id) + (1 | treatment:child_id), data = lead_data, REML = TRUE)
+
+# Compare models using AIC and BIC
+aic_bic <- data.frame(Model = c("Model 1", "Model 2", "Model 3", "Model 4"),
+                      AIC = c(AIC(model1), AIC(model2), AIC(model3), AIC(model4)),
+                      BIC = c(BIC(model1), BIC(model2), BIC(model3), BIC(model4)))
+
+print(aic_bic)
+```
+###c)
+From inspection of AIC and BIC for each model fit,we conlude that Model 3 have the lowest AIC and BIC. therefore, Magnitude of within-child fluctuations in lead levels is the same under all treatments but the way in which child-specific intercepts and slopes vary/co-vary are possibly different will be the assumption we prefer. 
+
+###d)
+```{r}
+# Load necessary libraries
+library(lme4)
+library(aod)  # For wald.test function
+
+# Fit the preferred Model 3 with interaction term
+model3_interact <- lmer(lead_level ~ week * treatment + (1 + week | treatment:child_id), data = lead_data, REML = TRUE)
+
+# Identify the indices of the interaction terms in the coefficient vector
+interaction_indices <- which(grepl("week:treatment", names(fixef(model3_interact))))
+
+# Conduct Wald test for the interaction terms using identified indices
+result <- wald.test(b = fixef(model3_interact), Sigma = vcov(model3_interact), Terms = interaction_indices)
+
+# Print the Wald test result
+print(result)
+
+```
